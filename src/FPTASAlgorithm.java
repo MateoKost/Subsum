@@ -1,45 +1,13 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class FTPASAlgorithm {
-    int n;
-    int t;
-    int max;
+public class FPTASAlgorithm extends ExactAlgorithm{
+
     double epsilon;
-    ArrayList<Integer> L0;
-    ArrayList<Integer> S;
 
-    public FTPASAlgorithm(ArrayList<Integer> S, int t, double epsilon) {
-        this.n = S.size();
-        this.S = S;
-        this.t = t;
+    public FPTASAlgorithm(ArrayList<Integer> S, int t, double epsilon) {
+        super(S,t);
         this.epsilon = epsilon;
-        L0 = new ArrayList<>();
-        L0.add(0);
-    }
-
-    public Boolean verify() {
-        if (max == t) {
-            return true;
-        } else return false;
-    }
-
-    public double[] measure() {
-        double[] measures = new double[2];
-
-        long startTime = System.currentTimeMillis();
-
-        max = findMax();
-
-        Runtime runtime = Runtime.getRuntime();
-        runtime.gc();
-        long memory = runtime.totalMemory() - runtime.freeMemory();
-        long stopTime = System.currentTimeMillis();
-        long elapsedTime = stopTime - startTime;
-
-        measures[0] = elapsedTime;
-        measures[1] = memory;
-        return measures;
     }
 
     public ArrayList<ArrayList<Integer>> calculate() {
@@ -64,9 +32,9 @@ public class FTPASAlgorithm {
             Li = Trim(Li, epsilon / n);
             ArrayList<Integer> indexesToRemove = new ArrayList<>();
 
-            for (int j = 0; j < Li.size(); j++) {
-                if (Li.get(j) > t) {
-                    indexesToRemove.add(Li.get(j));
+            for (Integer integer : Li) {
+                if (integer > t) {
+                    indexesToRemove.add(integer);
                 }
             }
 
@@ -93,12 +61,6 @@ public class FTPASAlgorithm {
             }
         }
         return LPrim;
-    }
-
-    public int findMax() {
-        ArrayList<ArrayList<Integer>> calculatedSubsets = calculate();
-        ArrayList<Integer> lastSubset = calculatedSubsets.get(calculatedSubsets.size() - 1);
-        return lastSubset.get(lastSubset.size() - 1);
     }
 
 }

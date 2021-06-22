@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ExactAlgorithm {
-    int n;
-    int t;
-    int max;
-    ArrayList<Integer> L0;
-    ArrayList<Integer> S;
+    protected int n;
+    protected int t;
+    protected int max;
+    protected ArrayList<Integer> L0;
+    protected ArrayList<Integer> S;
 
     public ExactAlgorithm(ArrayList<Integer> S, int t) {
         this.n = S.size();
@@ -17,9 +17,7 @@ public class ExactAlgorithm {
     }
 
     public Boolean verify() {
-        if (max == t) {
-            return true;
-        } else return false;
+        return max == t;
     }
 
     public double[] measure() {
@@ -40,7 +38,7 @@ public class ExactAlgorithm {
         return measures;
     }
 
-    public ArrayList<ArrayList<Integer>> calculate() {
+    protected ArrayList<ArrayList<Integer>> calculate() {
 
         System.out.println("S=" + S);
         System.out.println("t=" + t);
@@ -61,9 +59,9 @@ public class ExactAlgorithm {
 
             ArrayList<Integer> indexesToRemove = new ArrayList<>();
 
-            for (int j = 0; j < Li.size(); j++) {
-                if (Li.get(j) > t) {
-                    indexesToRemove.add(Li.get(j));
+            for (Integer integer : Li) {
+                if (integer > t) {
+                    indexesToRemove.add(integer);
                 }
             }
 
@@ -77,9 +75,21 @@ public class ExactAlgorithm {
         return LN;
     }
 
-    public int findMax() {
+    protected int findMax() {
         ArrayList<ArrayList<Integer>> calculatedSubsets = calculate();
         ArrayList<Integer> lastSubset = calculatedSubsets.get(calculatedSubsets.size() - 1);
         return lastSubset.get(lastSubset.size() - 1);
+    }
+
+    public void showMeasures(){
+        double[] measures = measure();
+        System.out.println("Czas wykonania [ms] :" + measures[0]);
+        System.out.println("Zajętość pamięci [bytes] :" + measures[1]);
+
+        if (verify()) {
+            System.out.println("Suma zgodna");
+        } else {
+            System.out.println("Suma nie jest zgodna");
+        }
     }
 }
