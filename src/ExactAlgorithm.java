@@ -84,7 +84,7 @@ public class ExactAlgorithm {
     public void showMeasures(){
         double[] measures = measure();
         System.out.println("Czas wykonania [ms] :" + measures[0]);
-        System.out.println("Zajętość pamięci [bytes] :" + measures[1]);
+        System.out.println("Zajętość pamięci [Bytes] :" + measures[1]);
 
         if (verify()) {
             System.out.println("Suma zgodna");
