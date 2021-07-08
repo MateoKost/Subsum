@@ -7,6 +7,7 @@ public class ExactAlgorithm {
     protected int max;
     protected ArrayList<Integer> L0;
     protected ArrayList<Integer> S;
+    protected int complexity;
 
     public ExactAlgorithm(ArrayList<Integer> S, int t) {
         this.n = S.size();
@@ -14,6 +15,7 @@ public class ExactAlgorithm {
         this.t = t;
         L0 = new ArrayList<>();
         L0.add(0);
+//        complexity = 5;
     }
 
     public Boolean verify() {
@@ -46,18 +48,29 @@ public class ExactAlgorithm {
         ArrayList<ArrayList<Integer>> LN = new ArrayList<>();
         LN.add(L0);
 
+        complexity = 5;
+        complexity += 2;
+
         for (int i = 1; i <= n; i++) {
             ArrayList<Integer> Li = new ArrayList<>(LN.get(i - 1));
-            ArrayList<Integer> _Lix = new ArrayList<>(LN.get(i - 1));
+            ArrayList<Integer> _Lix = new ArrayList<>();
 
-            for (int j = 0; j < _Lix.size(); j++) {
-                _Lix.set(j, _Lix.get(j) + S.get(i - 1));
+            complexity += 2;
+
+            for (int j = 0; j < Li.size(); j++) {
+                _Lix.add(Li.get(j) + S.get(i - 1));
             }
 
-            _Lix.removeAll(LN.get(i - 1));
+            complexity += _Lix.size()*2;
+
+            _Lix.removeAll(Li);
             Li.addAll(_Lix);
 
+            complexity += _Lix.size()*2;
+
             ArrayList<Integer> indexesToRemove = new ArrayList<>();
+
+            complexity += 1;
 
             for (Integer integer : Li) {
                 if (integer > t) {
@@ -65,13 +78,22 @@ public class ExactAlgorithm {
                 }
             }
 
+            complexity += Li.size();
+
             Li.removeAll(indexesToRemove);
             Collections.sort(Li);
             LN.add(Li);
+
+            complexity += indexesToRemove.size();
+            complexity += Li.size()*2;
+
+//            if(indexesToRemove.size()>0) break;
+
         }
 
         System.out.println("steps: " + LN);
         System.out.println("max in LN :" + LN.get(LN.size()-1));
+
         return LN;
     }
 
@@ -83,6 +105,7 @@ public class ExactAlgorithm {
 
     public void showMeasures(){
         double[] measures = measure();
+        System.out.println("Złożoność obliczeniowa :" + complexity);
         System.out.println("Czas wykonania [ms] :" + measures[0]);
         System.out.println("Zajętość pamięci [Bytes] :" + measures[1]);
 
@@ -91,5 +114,6 @@ public class ExactAlgorithm {
         } else {
             System.out.println("Suma nie jest zgodna");
         }
+
     }
 }

@@ -9,7 +9,7 @@ public class Main {
         }
 
         for( int n : new int[]{10,50,100,1000} ) {
-            new SubetSumTest(n, 10, 10, 100, 0.1);
+            new SubetSumTest(n, 10, 10, 100, 0.25);
         }
 
     }
